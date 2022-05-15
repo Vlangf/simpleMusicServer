@@ -1,5 +1,5 @@
 import enum
-from sqlalchemy import Column, Enum, Integer, MetaData, SmallInteger, String, Table
+from sqlalchemy import Column, Integer, MetaData, String, Table
 
 convention = {
     'all_column_names': lambda constraint, table: '_'.join([
@@ -24,7 +24,7 @@ class Gender(enum.Enum):
     male = 'male'
 
 
-songss_table = Table(
+songs_table = Table(
     'songs',
     metadata,
     Column('song_id', Integer, primary_key=True),
@@ -32,8 +32,9 @@ songss_table = Table(
     Column('artist', String(256), nullable=True),
     Column('album', String(256), nullable=True),
     Column('genre', String(256), nullable=True),
-    Column('bit_rate', SmallInteger, nullable=True),
-    Column('duration', SmallInteger, nullable=True),
-    Column('file_size', SmallInteger, nullable=False),
-    Column('year', SmallInteger, nullable=True)
+    Column('bit_rate', Integer, nullable=True),
+    Column('duration', Integer, nullable=True),
+    Column('file_size', Integer, nullable=False),
+    Column('year', Integer, nullable=True),
+    Column('hash_', String(256), nullable=False),
 )
