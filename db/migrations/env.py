@@ -1,5 +1,5 @@
 from logging.config import fileConfig
-import os
+from settings import db_connect_string
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from db.schema import metadata
@@ -15,7 +15,7 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # Get config from env
-config.set_main_option('sqlalchemy.url', os.getenv('DB_URL'))
+config.set_main_option('sqlalchemy.url', db_connect_string)
 
 # add your model's MetaData object here
 # for 'autogenerate' support

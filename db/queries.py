@@ -16,11 +16,12 @@ class DBSongs(metaclass=Singleton):
     def __init__(self):
         self.engine = sqlalchemy.create_engine(db_connect_string)
 
-    def insert_song(self, year, file_size, duration, bit_rate, genre, album, artist, title, hash_):
+    def insert_song(self, year, file_size, duration, bit_rate, genre, album, artist, title, hash_, file_name):
         with self.engine.connect() as conn:
             query = songs_table.insert().values(year=year, file_size=file_size, duration=duration, bit_rate=bit_rate,
-                                                genre=genre, album=album, artist=artist,
-                                                title=title, hash_=hash_).returning(songs_table)
+                                                genre=genre.lower(), album=album.title(), artist=artist.title(),
+                                                title=title.title(), hash_=hash_,
+                                                file_name=file_name).returning(songs_table)
             return conn.execute(query).fetchone()
 
     def delete_song(self, song_id):
@@ -32,3 +33,16 @@ class DBSongs(metaclass=Singleton):
         with self.engine.connect() as conn:
             query = songs_table.select().where(songs_table.c.hash_ == hash_)
             return conn.execute(query).fetchone()
+
+    def get_song_by_id(self, id_):
+        with self.engine.connect() as conn:
+            query = songs_table.select().where(songs_table.c.song_id == id_)
+            return conn.execute(query).fetchone()
+
+    def get_songs(self, limit, **kwargs):
+        with self.engine.connect() as conn:
+            query = songs_table.select().filter_by(**kwargs).limit(limit)
+            return conn.execute(query).fetchall()
+
+
+# print(DBSongs().get_songs(1, song_id=7))

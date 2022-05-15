@@ -28,7 +28,7 @@ songs_table = Table(
     'songs',
     metadata,
     Column('song_id', Integer, primary_key=True),
-    Column('title', String(256), nullable=False),
+    Column('title', String(256), nullable=True),
     Column('artist', String(256), nullable=True),
     Column('album', String(256), nullable=True),
     Column('genre', String(256), nullable=True),
@@ -37,4 +37,5 @@ songs_table = Table(
     Column('file_size', Integer, nullable=False),
     Column('year', Integer, nullable=True),
     Column('hash_', String(256), nullable=False),
+    Column('file_name', String(256), nullable=False),
 )
