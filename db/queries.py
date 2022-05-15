@@ -1,6 +1,7 @@
 import sqlalchemy
 from db.schema import songs_table
 from settings import db_connect_string
+from app.models import Song
 
 
 class Singleton(type):
@@ -37,12 +38,11 @@ class DBSongs(metaclass=Singleton):
     def get_song_by_id(self, id_):
         with self.engine.connect() as conn:
             query = songs_table.select().where(songs_table.c.song_id == id_)
-            return conn.execute(query).fetchone()
+            return Song(**conn.execute(query).fetchone())
 
     def get_songs(self, limit, **kwargs):
         with self.engine.connect() as conn:
             query = songs_table.select().filter_by(**kwargs).limit(limit)
             return conn.execute(query).fetchall()
-
 
 # print(DBSongs().get_songs(1, song_id=7))

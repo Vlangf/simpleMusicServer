@@ -20,6 +20,7 @@ class Song(BaseModel):
     album: str = None
     artist: str = None
     title: str = None
+    file_name: str
 
 
 class SongsList(BaseModel):
